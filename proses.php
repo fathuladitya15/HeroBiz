@@ -29,6 +29,7 @@ if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     $response['message'] = "Gambar berhasil diproses.";
     $response['imageUpload'] = $target_file;
     $response['imageProcess'] = 'dowloads'.'/'.$filename_no_ext.'.jpg';
+    $response['buttonDownload']  = 'dowloads/'.$filename_no_ext.'.zip';
 
 }else {
     $response['status'] = 500;

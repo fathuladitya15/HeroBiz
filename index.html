@@ -59,6 +59,9 @@
     #idle-land-percentage{
         font-size: 24px;
     }
+    .div-download {
+      display: none;
+    }
   </style>
 </head>
 
@@ -82,7 +85,7 @@
         <i class="bi bi-list mobile-nav-toggle d-none"></i>
       </nav><!-- .navbar -->
 
-      <a class="btn-getstarted scrollto" href="index.html#about">Ayo Mulai</a>
+      <a class="btn-getstarted scrollto" href="index.html#cta">Ayo Mulai</a>
 
     </div>
   </header><!-- End Header -->
@@ -199,7 +202,6 @@
                         <div class="col-mt-1 col-lg-3 info_contact  ">
                             <p>
                                 <button class="btn btn-secondary" type="submit">Proses</button>
-                                <!-- <p> <a onclick="processImage()"  class="btn btn-secondary">Proses</a></p> -->
                             </p>
                         </div>
                     </label>
@@ -210,8 +212,9 @@
                     <img id="uploaded-image" src="" alt="Uploaded Image">
                     <img id="processed-image" src="" alt="Processed Image">
                 </div>
-                <div class="button-download" style="display: none;">
-                    <a href=""  class="btn btn-success">Download File Zip</a>
+                <br><br>
+                <div  class="div-download"  id="div-download">
+                    <a  id="btn-download" class="btn btn-success">Download File Zip</a>
                 </div>
             </div>
         </div>
@@ -383,6 +386,7 @@
 
                         var imageUploaded = document.getElementById("uploaded-image");
                         var imageProcessed = document.getElementById("processed-image");
+                        var downloadLink = document.getElementById('btn-download');
                         if(status == 200) {
                             Swal.fire(
                                 'Sukses!',
@@ -391,6 +395,9 @@
                             );
                             imageUploaded.src = response.imageUpload;
                             imageProcessed.src = response.imageProcess;
+                            document.getElementById('div-download').style.display = 'block';
+                            downloadLink.setAttribute('href', response.buttonDownload);
+
                         }else if(status == 500) {
                             Swal.fire(
                                 'Error!',
