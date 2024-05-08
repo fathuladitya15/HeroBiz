@@ -4,6 +4,20 @@
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
+    $filename       = basename($_FILES["fileToUpload"]["name"]);
+    $filename_no_ext = pathinfo($filename, PATHINFO_FILENAME);
+
+
+    $save_path      = getcwd().'/dowloads'.'/'.$filename_no_ext.'.jpg';
+    $save_shp       = getcwd().'/dowloads'.'/'.$filename_no_ext.'.shp';
+    $save_zip       = getcwd().'/dowloads'.'/'.$filename_no_ext.'.zip';
+
+    $shp            = $filename.'.shp';
+    $shx            = $filename.'.shx';
+    $dbf            = $filename.'.dbf';
+    $cpg            = $filename.'.cpg';
+
+
     // Inisialisasi array respons
     $response = array();
 
@@ -23,8 +37,7 @@
     }
 
     // Izinkan hanya format gambar tertentu
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
         $uploadOk = 0;
     }
 
@@ -34,8 +47,20 @@
         $response['message'] = "Terjadi kesalahan saat mengunggah gambar.";
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+
+            $py = exec("py python/proses1.py " . $target_file.' '.$save_path. ' ' .$filename .' '.$save_shp.' '.$shp.' '.$shx.' '.$dbf.' '.$cpg.' '.$save_zip);
+
+            $cekFiles = '/dowloads'.'/'.$filename_no_ext.'.zip';
+
+            if(!file_exists($cekFiles)){
+                exec("py python/proses1.py " . $target_file.' '.$save_path. ' ' .$filename .' '.$save_shp.' '.$shp.' '.$shx.' '.$dbf.' '.$cpg.' '.$save_zip);
+            }
+
+
             $response['status'] = 200;
             $response['message'] = "Gambar berhasil diunggah.";
+            $response['cekFileZip'] = file_exists($cekFiles);
+
             // Jika perlu, Anda bisa menambahkan data tambahan di sini
         } else {
             $response['status'] = 500;

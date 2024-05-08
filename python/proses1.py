@@ -22,9 +22,9 @@ saveZip     = sys.argv[9]
 # print("Ini adalah Nama File : ",filename )
 
 
-rf = Roboflow(api_key="7bHTkpCMSaLaSiMcY0rO")
+rf      = Roboflow(api_key="7bHTkpCMSaLaSiMcY0rO")
 project = rf.workspace().project("pines-tree")
-model = project.version(3).model
+model   = project.version(3).model
 model.predict(image_path, confidence=40, overlap=30).save(saveFileJPG)
 
 # prediksi model
@@ -53,3 +53,5 @@ with zipfile.ZipFile(saveZip, 'w') as zipf:
     zipf.write(shx)
     zipf.write(dbf)
     zipf.write(cpg)
+
+

@@ -210,10 +210,9 @@
                     <img id="uploaded-image" src="" alt="Uploaded Image">
                     <img id="processed-image" src="" alt="Processed Image">
                 </div>
-                <h4>Green Cover Percentage: <span id="green-cover-percentage"></span></h4>
-                <p id="green-cover-percentage"></p>
-                <h4>Idle Land Percentage: <span id="idle-land-percentage"></span></h4>
-                <p id="idle-land-percentage"></p>
+                <div class="button-download" style="display: none;">
+                    <a href=""  class="btn btn-success">Download File Zip</a>
+                </div>
             </div>
         </div>
         <br>
@@ -364,7 +363,7 @@
             formData.append('fileToUpload', file)
 
                 $.ajax({
-                    url: 'proses2.php',
+                    url: 'proses.php',
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -382,12 +381,16 @@
                     },success: function(response) {
                         var status = response.status;
 
+                        var imageUploaded = document.getElementById("uploaded-image");
+                        var imageProcessed = document.getElementById("processed-image");
                         if(status == 200) {
                             Swal.fire(
                                 'Sukses!',
                                 'Gambar berhasil diunggah.',
                                 'success'
                             );
+                            imageUploaded.src = response.imageUpload;
+                            imageProcessed.src = response.imageProcess;
                         }else if(status == 500) {
                             Swal.fire(
                                 'Error!',
@@ -400,14 +403,17 @@
                                 'Terjadi kesalahan saat mengunggah gambar.',
                                 'error'
                             );
+
                         }
-                        // console.log(response);
+                        console.log(response);
+
                         // Sembunyikan indikator loading dan tampilkan notifikasi
 
 
                     },
                     error: function(xhr, status, error) {
                         // Sembunyikan indikator loading dan tampilkan notifikasi
+                        console.log(xhr);
 
                         Swal.fire(
                             'Gagal!',
